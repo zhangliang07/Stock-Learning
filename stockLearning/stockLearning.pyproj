@@ -1,0 +1,55 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>980edfae-c481-4a46-ab24-b08039206b14</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>stockQLearning\train.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>stockLearning</Name>
+    <RootNamespace>stockLearning</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="module1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="try\learning2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="try\train.py" />
+    <Compile Include="StockData.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="try\StockLearning.py" />
+    <Compile Include="stockQLearning\StockQLearning.py" />
+    <Compile Include="stockQLearning\train.py" />
+    <Compile Include="storckPolicy\StockPolicyLearning.py" />
+    <Compile Include="storckPolicy\train.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="F:\code\stockLearning\stockLearning\try\" />
+    <Folder Include="stockQLearning\" />
+    <Folder Include="storckPolicy\" />
+    <Folder Include="try\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>
