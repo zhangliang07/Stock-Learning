@@ -4,16 +4,15 @@ import glob		#文件搜索库
 import os
 
 
-#_rootDataPath = os.path.realpath(os.getcwd() + '/../../stockData/') + '\\'
-
-#if the code downloaded from github, use this path, due to the whole stock data wasn't uploaded.
-_rootDataPath = os.path.realpath(os.getcwd() + '/../stockData/') + '\\'
+#if the code downloaded from github, please decompress the zip file in the dir,
+#and the whole stock data wasn't uploaded due to the size.
+#_rootDataPath = os.path.realpath(os.getcwd() + '/../stockData/') + '\\'
 
 
 #获取目录下所有的股票代码
 def getStockRandomList():
-	stockFile = _rootDataPath + '上证A股/*.SH.CSV'
-	#stockFile = _rootDataPath + '深证A股/*.SZ.CSV'
+	stockFile = _rootDataPath + 'shangzhengA/*.SH.CSV'
+	#stockFile = _rootDataPath + 'shenzhengA/*.SZ.CSV'
 	#stockFile = _rootDataPath + '*.SH.CSV'		//used for github
 
 	filenameList = glob.glob(stockFile)
