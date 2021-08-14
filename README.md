@@ -7,7 +7,7 @@ The model can make suggestions to buy in or sell for tomorrow, based on past sev
 It seems able to make profit.
 But I think nobody will apply it for real stock market.
 Because the model based on the trainment only with past years' stock data.
-The performance for current real market is uncertain.
+The performance for current real data is uncertain.
 
 Several years ago it was written by tensorflow. Recently I rewrote it with pytorch.
 
