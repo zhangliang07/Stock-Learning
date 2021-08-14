@@ -1,12 +1,21 @@
 import csv
 import numpy
 import glob		#文件搜索库
+import os
+
+
+#_rootDataPath = os.path.realpath(os.getcwd() + '/../../stockData/') + '\\'
+
+#if the code downloaded from github, use this path, due to the whole stock data wasn't uploaded.
+_rootDataPath = os.path.realpath(os.getcwd() + '/../stockData/') + '\\'
 
 
 #获取目录下所有的股票代码
 def getStockRandomList():
-	stockFile = 'F:\deeplearning\数据集\上证A股\*.SH.CSV'
-	#stockFile = 'F:\deeplearning\数据集\深证A股\*.SZ.CSV'
+	stockFile = _rootDataPath + '上证A股/*.SH.CSV'
+	#stockFile = _rootDataPath + '深证A股/*.SZ.CSV'
+	#stockFile = _rootDataPath + '*.SH.CSV'		//used for github
+
 	filenameList = glob.glob(stockFile)
 	idlist = []
 	for name in filenameList:
@@ -20,8 +29,6 @@ def getStockRandomList():
 
 
 class StockData:
-	__rootDataPath = 'F:/deeplearning/数据集/'
-
 	def __init__(self, stockId, dateSize):
 		self.__stockId = stockId
 		self.__dateSize = dateSize #数据集固定的采样大小
@@ -29,10 +36,10 @@ class StockData:
 		#获取文件名
 		if stockId > 0 and stockId < 600000:
 			stockFile = format('深证A股/%0*d.SZ.CSV' % (6, stockId))
-			fileName = self.__rootDataPath + stockFile
+			fileName = _rootDataPath + stockFile
 		else:
 			stockFile = format('上证A股/%0*d.SH.CSV' % (6, stockId))
-			fileName = self.__rootDataPath + stockFile
+			fileName = _rootDataPath + stockFile
 
 		file =  open(fileName, 'r')
 		reader = csv.DictReader(file)
@@ -126,12 +133,12 @@ class StockData:
 
 		#定义的操作是0为买入，1为不动，2为卖出
 		reward = 0.0	#仅在卖出时结算奖励
-		if action == 0 and self.__state == 0:
+		if action < 0.5 and self.__state == 0:
 			count = (self.__money * 0.999) //nextPrice
 			self.__stock += count
 			self.__money -= (count * nextPrice) * 1.001 #手续费
 			self.__state = 1
-		elif action == 2 and self.__state == 1:
+		elif action > 1.5 and self.__state == 1:
 			self.__money += self.__stock * nextPrice * 0.998 #手续费
 			self.__stock = 0
 			self.__state = 0
@@ -230,21 +237,19 @@ class Log:
 		if len(self.__totalEndMoney) > 100:
 			self.__totalEndMoney.pop(0)
 
-		print('total step %d, mean porfit: %f, totalProfit: %f, mean endMoney: %f, totalEndMoney: %f, break times: %d'
-			% (step, meanProfit, numpy.mean(self.__totalProfit),
-		 meanEndMoney, numpy.mean(self.__totalEndMoney), self.__breakTimes))
+		#print('total step %d, mean porfit: %f, totalProfit: %f, mean endMoney: %f, totalEndMoney: %f, break times: %d'
+		#	% (step, meanProfit, numpy.mean(self.__totalProfit),
+		# meanEndMoney, numpy.mean(self.__totalEndMoney), self.__breakTimes))
+		print('total step %d, mean porfit: %f, mean endMoney: %f, break times: %d'
+			% (step, meanProfit, meanEndMoney, self.__breakTimes))
 		self.__profitList.clear()
 		self.__endMoneyList.clear()
 		self.__breakTimes = 0
 
 
 	def restoreVariables(self):
-		ckpt = tf.train.get_checkpoint_state('/tf_log/checkPoints/')
-		if ckpt != None:
-			print('loading model...')
-			saver.restore(learner.session, ckpt)
+		pass
 
 
 	def saveVaribles(self, step):
-		saver.save(learner.session, '/tf_log/checkPoints/model.cptk', step)
-		print('saved model')
+		pass
