@@ -3,7 +3,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>980edfae-c481-4a46-ab24-b08039206b14</ProjectGuid>
-    <StartupFile>train.py</StartupFile>
+    <StartupFile>stockQLearning\train.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
