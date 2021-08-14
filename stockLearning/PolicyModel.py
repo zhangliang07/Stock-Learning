@@ -39,7 +39,10 @@ class _PolicyCnnNetwork(nn.Module):
     return x
 
 
-#the most important is to write the currect loss function (convex function)
+#the most important is to write the correct loss function.
+#firstly it should be a convex function.
+#secondly it approaches the minimum along your desired direction or at your desired point.
+#thirdly it covers the input domain of your usage.
 class _LossFunction(nn.Module):
   def __init__(self, type = 2):
     super(_LossFunction, self).__init__()
