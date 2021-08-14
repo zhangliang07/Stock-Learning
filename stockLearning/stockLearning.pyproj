@@ -20,23 +20,11 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="try\learning2.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="try\train.py" />
+    <Compile Include="PolicyModel.py" />
+    <Compile Include="train.py" />
     <Compile Include="StockData.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="try\StockLearning.py" />
-    <Compile Include="stockQLearning\StockQLearning.py" />
-    <Compile Include="stockQLearning\train.py" />
-    <Compile Include="storckPolicy\StockPolicyLearning.py" />
-    <Compile Include="storckPolicy\train.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="stockQLearning\" />
-    <Folder Include="storckPolicy\" />
-    <Folder Include="try\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
