@@ -1,8 +1,12 @@
 # stockLearning
-AI for stock data
+AI for stock market
 
-To operate automatically in the stock market by reinforcement learning.
+It operate automatically in the stock market by reinforcement learning.
+The model can make suggestions to buy in or sell for tomorrow, based on the past several days' stock data.
+
 It seems able to make profit.
+But I think nobody will apply it for real stock market.
+Because the model based on the trainment only with past days' stock data. The effect for real data is uncertain.
 
 Many years ago it was written by tensorflow. Recently I rewrote it with pytorch.
 
@@ -10,3 +14,5 @@ As I think the most important is to write the correct loss function.
 Firstly it should be a convex function.
 Secondly it approaches the minimum along your desired direction or at your desired point.
 Thirdly it covers the input domain of your usage.
+
+For reinforcement learning, it's necessary to add random actions to avoid local convergence.
