@@ -2,7 +2,7 @@ import torch
 from torch import nn
 import torch.nn.functional as functional
 import numpy
-from torchsummary import summary
+#from torchsummary import summary
 
 
 class _PolicyCnnNetwork(nn.Module):
@@ -14,23 +14,22 @@ class _PolicyCnnNetwork(nn.Module):
       nn.ReLU(),
     )
     self.__conv2 =nn.Sequential(
-      nn.Conv1d(30, out_channels = 100, kernel_size=4, stride=1),
+      nn.Conv1d(30, out_channels = 100, kernel_size=4, stride=2),
       nn.ReLU()
     )
 
-    #the more layers seems not perform better
+    #the more layers seems not perform better, I don't know
     #self.__conv3 =nn.Sequential(
     #  nn.Conv1d(100, out_channels = 256, kernel_size=3, stride=1),
     #  nn.ReLU()
     #)
     
-    self.__linear1 =nn.Sequential(
-      nn.Linear(2500, 256),
+    #the linear layers should not be too much
+    self.__linears =nn.Sequential(
+      nn.Linear(1300, 256),
       nn.ReLU(),
-    )
-    self.__linear2 =nn.Sequential(
       nn.Linear(256, 3),
-      nn.ReLU(),
+      nn.ReLU()
     )
     return
 
@@ -41,8 +40,7 @@ class _PolicyCnnNetwork(nn.Module):
     x = self.__conv2(x)
     #x = self.__conv3(x)
     x = self.__flatten(x)
-    x = self.__linear1(x)
-    x = self.__linear2(x)
+    x = self.__linears(x)
     return x
 
 
