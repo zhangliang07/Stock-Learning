@@ -2,10 +2,15 @@ import StockData
 import PolicyModel
 
 
-#dateSize = 188 #该数值要符合卷积的要求
+#the days of past stock data to be watched, this will change the layers' output shape
 dateSize = 30
-operationCount = 20
+
+#maximum of days to deal
+operationCount = 30
+
+#the original money the model have
 moneyBase = 10000
+
 
 idlist = StockData.getStockRandomList()
 stockLearning = PolicyModel.PolicyCnnNetwork(8)
@@ -26,7 +31,7 @@ for id in idlist:
 		actionList = []
 		opCount = 0
 		data = stockData.reset(index, moneyBase)
-		while opCount < 20 : #最多操作20天
+		while opCount < operationCount : #maximum of days to deal
 			randomRate = 0.1 if totalStep > 10000 else (1.05 - totalStep/3000.0)
 			action = stockLearning.predict(data, randomRate)
 
@@ -45,13 +50,20 @@ for id in idlist:
 		money = stockData.getCurrentMoney()
 
 		#设置奖励:
+		#reward should be a coefficient in (--, ++)
     #if rewead is 0.3, it means the final money is 1.3 times of original money
     #if rewead is -0.2, it means the final money is 0.8 times of original money
-		reward = (money - moneyBase)/ moneyBase / opCount
+		reward = (money - moneyBase)/ moneyBase # couldn't to '/ opCount'
 		log.addProfit(reward)
 		log.addEndMoney(money)
+		rewardList = [reward] * len(actionList)
 
-		stockLearning.learn(dataList, actionList, reward, totalStep)
+		#the more previous action is more important, this step can skip
+		for i in range(0, len(actionList)):
+			rewardList[i] = reward
+			reward *= 0.98    #factor
+
+		stockLearning.learn(dataList, actionList, rewardList, totalStep)
 
 		totalStep += 1
 

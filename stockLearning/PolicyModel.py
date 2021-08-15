@@ -10,16 +10,22 @@ class _PolicyCnnNetwork(nn.Module):
     super(_PolicyCnnNetwork, self).__init__()
     self.__flatten = nn.Flatten()
     self.__conv1 = nn.Sequential(
-      nn.Conv1d(in_channels = inputSize, out_channels = 32, kernel_size=3, stride=1, padding=1),
+      nn.Conv1d(in_channels = inputSize, out_channels = 30, kernel_size=3, stride=1),
       nn.ReLU(),
     )
     self.__conv2 =nn.Sequential(
-      nn.Conv1d(32, out_channels = 128, kernel_size=3, stride=1, padding=1),
+      nn.Conv1d(30, out_channels = 100, kernel_size=4, stride=1),
       nn.ReLU()
     )
+
+    #the more layers seems not perform better
+    #self.__conv3 =nn.Sequential(
+    #  nn.Conv1d(100, out_channels = 256, kernel_size=3, stride=1),
+    #  nn.ReLU()
+    #)
     
     self.__linear1 =nn.Sequential(
-      nn.Linear(3840, 256),
+      nn.Linear(2500, 256),
       nn.ReLU(),
     )
     self.__linear2 =nn.Sequential(
@@ -33,6 +39,7 @@ class _PolicyCnnNetwork(nn.Module):
     x = x.permute(0, 2, 1)
     x = self.__conv1(x)
     x = self.__conv2(x)
+    #x = self.__conv3(x)
     x = self.__flatten(x)
     x = self.__linear1(x)
     x = self.__linear2(x)
@@ -102,7 +109,7 @@ class _LossFunction(nn.Module):
     pred = pred.softmax(dim=1)
 
     #calculte the distance of two tensors
-    temp = functional.cross_entropy(pred, actions, reduce=False);
+    temp = functional.cross_entropy(pred, actions, reduction='none');
     temp = torch.sub(2.0, temp)
 
     #the more they closer, the more effective of reward
@@ -134,16 +141,7 @@ class PolicyCnnNetwork:
   # dataInput: shape(batchSize, windowSize, 8)?? value(--, ++)
   # actions: (batchSize), value 0, 1 or 2
   # reward: (batchSize), value(--, ++)
-  def learn(self, dataInput, actions, reward, step):
-    #reward should be a coefficient in (--, ++)
-    #if rewead is 0.3, it means the final money is 1.3 times of original money
-    #if rewead is -0.2, it means the final money is 0.8 times of original money
-    #the more previous action is more important
-    rewardList = [reward] * len(actions)
-    for i in range(0, len(rewardList)):
-      rewardList[i] = reward
-      reward *= 0.98    #factor
-
+  def learn(self, dataInput, actions, rewardList, step):
     dataInput = torch.tensor(dataInput, device=self.__device)
     actions = torch.tensor(actions, device=self.__device)
     rewardList = torch.tensor(rewardList, device=self.__device)

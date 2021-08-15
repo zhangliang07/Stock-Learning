@@ -6,7 +6,7 @@ import os
 
 #if the code downloaded from github, please decompress the zip file in the dir,
 #and the whole stock data wasn't uploaded due to the size.
-#_rootDataPath = os.path.realpath(os.getcwd() + '/../stockData/') + '\\'
+_rootDataPath = os.path.realpath(os.getcwd() + '/../stockData/') + '\\'
 
 
 #获取目录下所有的股票代码
@@ -34,10 +34,10 @@ class StockData:
 
 		#获取文件名
 		if stockId > 0 and stockId < 600000:
-			stockFile = format('深证A股/%0*d.SZ.CSV' % (6, stockId))
+			stockFile = format('shenzhengA/%0*d.SZ.CSV' % (6, stockId))
 			fileName = _rootDataPath + stockFile
 		else:
-			stockFile = format('上证A股/%0*d.SH.CSV' % (6, stockId))
+			stockFile = format('shangzhengA/%0*d.SH.CSV' % (6, stockId))
 			fileName = _rootDataPath + stockFile
 
 		file =  open(fileName, 'r')
@@ -133,9 +133,9 @@ class StockData:
 		#定义的操作是0为买入，1为不动，2为卖出
 		reward = 0.0	#仅在卖出时结算奖励
 		if action < 0.5 and self.__state == 0:
-			count = (self.__money * 0.999) //nextPrice
+			count = self.__money //nextPrice
 			self.__stock += count
-			self.__money -= (count * nextPrice) * 1.001 #手续费
+			self.__money -= (count * nextPrice) * 1.002 #手续费
 			self.__state = 1
 		elif action > 1.5 and self.__state == 1:
 			self.__money += self.__stock * nextPrice * 0.998 #手续费
@@ -146,7 +146,7 @@ class StockData:
 
 		if self.__index + self.__dateSize >= len(self.__data) - 2:	#判断结束，为最后一次结算预留一位
 			done = True
-		elif self.__state == 0 and self.__money < self.__moneyBase * 0.9: #亏损到一定百分比结束
+		elif self.__state == 0 and self.__money < self.__moneyBase * 0.5: #亏损到一定百分比结束
 			done = True
 		else:
 			done = False
@@ -239,8 +239,8 @@ class Log:
 		#print('total step %d, mean porfit: %f, totalProfit: %f, mean endMoney: %f, totalEndMoney: %f, break times: %d'
 		#	% (step, meanProfit, numpy.mean(self.__totalProfit),
 		# meanEndMoney, numpy.mean(self.__totalEndMoney), self.__breakTimes))
-		print('total step %d, mean porfit: %f, mean endMoney: %f, break times: %d'
-			% (step, meanProfit, meanEndMoney, self.__breakTimes))
+		print('total step %d, mean porfit: %f, mean endMoney: %f, break times: %d, totalProfit: %f'
+			% (step, meanProfit, meanEndMoney, self.__breakTimes, numpy.mean(self.__totalProfit)))
 		self.__profitList.clear()
 		self.__endMoneyList.clear()
 		self.__breakTimes = 0
