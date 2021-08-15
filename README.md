@@ -19,5 +19,5 @@ For reinforcement learning, it's necessary to add random actions to avoid local 
 
 The model simply uses 4 layers (2 convolutions and 2 linears).
 Now the model's mean profit is about 20% per year.
-Maybe the performance will improve with more neural units.
+Maybe the performance will improve with more amount of neural units.
 
