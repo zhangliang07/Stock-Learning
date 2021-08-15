@@ -15,9 +15,9 @@ As I think the most important part is to write a correct loss function.
 Firstly it should be a convex function.
 Secondly it approaches the minimum (or negative maximum) along your desired direction or at your desired point.
 Thirdly it covers the input domain of your usage.
+For reinforcement learning, it's necessary to add random actions to avoid local convergence.
 
 The model simply uses 4 layers (2 convolutions and 2 linears).
-For reinforcement learning, it's necessary to add random actions to avoid local convergence.
 Now the model's mean profit is about 20% per year.
 Maybe the performance will improve with more neural units.
 
