@@ -13,7 +13,7 @@ moneyBase = 10000
 
 
 idlist = StockData.getStockRandomList()
-stockLearning = PolicyModel.PolicyCnnNetwork(8)
+stockLearning = PolicyModel.PolicyCnnNetwork(6)
 log = StockData.Log()
 
 

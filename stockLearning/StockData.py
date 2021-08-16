@@ -47,10 +47,13 @@ class StockData:
 		array = []
 		days = []
 		for row in reader:
+			#rowData = (row['开盘价(元)'], row['收盘价(元)'],
+			#				row['最高价(元)'], row['最低价(元)'],
+			#				row['涨跌幅(%)'], row['成交量(股)'],
+			#				row['市盈率'], row['市净率'])
 			rowData = (row['开盘价(元)'], row['收盘价(元)'],
-							row['最高价(元)'], row['最低价(元)'],
-							row['涨跌幅(%)'], row['成交量(股)'],
-							row['市盈率'], row['市净率'])
+				row['最高价(元)'], row['最低价(元)'],
+				row['成交量(股)'], row['市盈率'])
 
 			#去掉数据中有na的行
 			if 'N/A' not in rowData:

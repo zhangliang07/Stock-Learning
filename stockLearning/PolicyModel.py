@@ -5,30 +5,44 @@ import numpy
 #from torchsummary import summary
 
 
+#dropout layers seems to tend more to fall in local convergences
+_usedropout = False
+_dropoutrate = 0.1
+
+
 class _PolicyCnnNetwork(nn.Module):
   def __init__(self, inputSize):
     super(_PolicyCnnNetwork, self).__init__()
     self.__flatten = nn.Flatten()
+    self.__dropout = nn.Dropout(0.1)
     self.__conv1 = nn.Sequential(
-      nn.Conv1d(in_channels = inputSize, out_channels = 30, kernel_size=3, stride=1),
+      nn.Conv1d(in_channels = inputSize, out_channels = 24, kernel_size=3, stride=1),
       nn.ReLU(),
     )
+    if _usedropout: self.__conv1.add_module('d', nn.Dropout(_dropoutrate))
+
     self.__conv2 =nn.Sequential(
-      nn.Conv1d(30, out_channels = 100, kernel_size=4, stride=2),
+      nn.Conv1d(24, out_channels = 80, kernel_size=3, stride=1),
       nn.ReLU()
     )
+    if _usedropout: self.__conv2.add_module('d', nn.Dropout(_dropoutrate))
 
     #the more layers seems not perform better, I don't know
     #self.__conv3 =nn.Sequential(
-    #  nn.Conv1d(100, out_channels = 256, kernel_size=3, stride=1),
+    #  nn.Conv1d(80, out_channels = 200, kernel_size=5, stride=2),
     #  nn.ReLU()
     #)
+    #if _usedropout: self.__conv3.add_module('d', nn.Dropout(_dropoutrate))
     
     #the linear layers should not be too much
-    self.__linears =nn.Sequential(
-      nn.Linear(1300, 256),
-      nn.ReLU(),
-      nn.Linear(256, 3),
+    self.__linear1 =nn.Sequential(
+      nn.Linear(2080, 200),
+      nn.ReLU()
+    )
+    if _usedropout: self.__linear1.add_module('d', nn.Dropout(_dropoutrate))
+
+    self.__linear2 =nn.Sequential(
+      nn.Linear(200, 3),
       nn.ReLU()
     )
     return
@@ -40,7 +54,8 @@ class _PolicyCnnNetwork(nn.Module):
     x = self.__conv2(x)
     #x = self.__conv3(x)
     x = self.__flatten(x)
-    x = self.__linears(x)
+    x = self.__linear1(x)
+    x = self.__linear2(x)
     return x
 
 
