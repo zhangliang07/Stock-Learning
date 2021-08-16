@@ -11,6 +11,8 @@ Because the model is based on the training only with past years' stock data.
 The performance for current real data is uncertain.
 
 Several years ago I wrote it by TensorFlow. Recently I rewrote it with PyTorch.
+In this past code, the performance of Q-leaning and policy-method are similar,
+so I only rewrote the model of policy-method temporally.
 
 As I think the most important part is to write a correct loss function.
 Firstly it should be a convex function.
