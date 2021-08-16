@@ -32,10 +32,10 @@ for id in idlist:
 		opCount = 0
 		data = stockData.reset(index, moneyBase)
 		while opCount < operationCount : #maximum of days to deal
-			randomRate = 0.1 if totalStep > 10000 else (1.05 - totalStep/3000.0)
+			randomRate = 0.6 if totalStep < 3000 else 0.1 #if totalStep < 10000 else 0.0
 			action = stockLearning.predict(data, randomRate)
 
-			nextData, reward, done = stockData.takeAction(action)
+			nextData, done = stockData.takeAction(action)
 			dataList.append(data)
 			actionList.append(action)
 			data = nextData
@@ -46,6 +46,7 @@ for id in idlist:
 				break
 
 		#强制结算
+		stockData.takeAction(2)
 		index  = stockData.getCurrentIndex()
 		money = stockData.getCurrentMoney()
 

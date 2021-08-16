@@ -1,6 +1,9 @@
 # Stock Learning
 AI for stock market
+
 Please run the "stockLearning/train.py".
+If the model falls in steady and non-actions, the training falls in local convergence.
+Please retry the script again.
 
 It operates automatically in stock markets by reinforcement learning.
 The model can suggest to buy in or sell for tomorrow, based on past several days' stock data.
@@ -17,6 +20,7 @@ Secondly it approaches the minimum (or negative maximum) along your desired dire
 Thirdly it covers the input domain of your usage.
 For reinforcement learning, it's necessary to add random actions to avoid local convergence.
 
-The model simply uses 4 layers (2 convolutions and 2 linears).
-Now the model's mean profit is about 20% per year.
+The model simply uses 5 layers (3 convolutions and 2 linears).
+(As I tested, 2 convolutions and 2 linears is already enough.)
+Now the model's mean profit is about 20% per year (0.2% of transaction tax).
 Maybe the performance will improve with more amount of neural units.

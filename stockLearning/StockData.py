@@ -106,9 +106,7 @@ class StockData:
 		self.__index = index #目前操作的天数 
 		self.__moneyBase = moneyBase #1万元本钱
 		self.__money = moneyBase
-		self.__lastMoney = moneyBase #1上一次空仓时的资金
 		self.__stock = 0 
-		self.__state = 0 #仓位状态。0空仓，1满仓
 
 		if self.__index + self.__dateSize >= len(self.__data) -1:
 			return None  #读到末尾结束
@@ -121,12 +119,13 @@ class StockData:
 
 	
 	def getCurrentMoney(self):
-		nextPrice = self.__data[self.__index + self.__dateSize, 0]
-		return self.__money + self.__stock * nextPrice
+		return self.__money
 
 
 	def takeAction(self, action):
-		if self.__index + self.__dateSize >= len(self.__data) -2: #为最后一次结算预留一位
+		if self.__index + self.__dateSize >= len(self.__data) -1 : #为最后一次结算预留一位
+			print("takeAction: access the end")
+			raise Exception("takeAction: access the end")
 			return None, None, True #读到末尾结束
 
 		self.__index += 1
@@ -134,27 +133,23 @@ class StockData:
 		nextPrice = nextData[-1, 0]
 
 		#定义的操作是0为买入，1为不动，2为卖出
-		reward = 0.0	#仅在卖出时结算奖励
-		if action < 0.5 and self.__state == 0:
+		if action < 0.5 and self.__money > 0:
 			count = self.__money //nextPrice
 			self.__stock += count
-			self.__money -= (count * nextPrice) * 1.002 #手续费
-			self.__state = 1
-		elif action > 1.5 and self.__state == 1:
-			self.__money += self.__stock * nextPrice * 0.998 #手续费
+			self.__money -= count * nextPrice
+		elif action > 1.5 and self.__stock > 0:
+			self.__money += self.__stock * nextPrice
+			self.__money *= 0.998	#手续费
 			self.__stock = 0
-			self.__state = 0
-			reward = (self.__money - self.__lastMoney) / self.__lastMoney * 10000.0 #奖励为利润万分数
-			self.__lastMoney = self.__money #为下一次结算更新空仓时的资金
+			if self.__money < self.__moneyBase * 0.5: #亏损到一定百分比结束
+				done = True
 
 		if self.__index + self.__dateSize >= len(self.__data) - 2:	#判断结束，为最后一次结算预留一位
-			done = True
-		elif self.__state == 0 and self.__money < self.__moneyBase * 0.5: #亏损到一定百分比结束
 			done = True
 		else:
 			done = False
 
-		return nextData, reward, done
+		return nextData, done
 
 
 class StockBuffer:
