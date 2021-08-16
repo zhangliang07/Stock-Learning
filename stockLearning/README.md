@@ -1,4 +1,4 @@
-# stockLearning
+# Stock Learning
 AI for stock market
 Please run the "stockLearning/train.py".
 
