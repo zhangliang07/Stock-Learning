@@ -1,5 +1,6 @@
 # stockLearning
 AI for stock market
+Please run the "stockLearning/train.py".
 
 It operates automatically in stock markets by reinforcement learning.
 The model can suggest to buy in or sell for tomorrow, based on past several days' stock data.
