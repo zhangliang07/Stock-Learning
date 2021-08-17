@@ -2,7 +2,7 @@
 AI for stock market
 
 Please run the "stockLearning/train.py".
-If the model become steady and non-actions, the training falls in local convergence.
+If the model becomes steady and non-actions, the training falls in local convergence.
 Please retry the script again.
 
 It operates automatically in stock markets by reinforcement learning.
