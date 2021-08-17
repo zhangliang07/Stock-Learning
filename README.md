@@ -24,5 +24,5 @@ For reinforcement learning, it's necessary to add random actions to avoid local 
 
 The model simply uses 5 layers (3 convolutions and 2 linears).
 (As I tested, 2 convolutions and 2 linears are already enough.)
-Now the model's mean profit is about 20% per year (0.2% of transaction tax).
+Now the model's mean profit is about 20% per year (the transaction tax is 0.2%).
 Maybe the performance will improve with more amount of neural units.
