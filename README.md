@@ -2,7 +2,7 @@
 AI for stock market
 
 Please run the "stockLearning/train.py".
-If the model falls in steady and non-actions, the training falls in local convergence.
+If the model become steady and non-actions, the training falls in local convergence.
 Please retry the script again.
 
 It operates automatically in stock markets by reinforcement learning.
@@ -21,6 +21,6 @@ Thirdly it covers the input domain of your usage.
 For reinforcement learning, it's necessary to add random actions to avoid local convergence.
 
 The model simply uses 5 layers (3 convolutions and 2 linears).
-(As I tested, 2 convolutions and 2 linears is already enough.)
+(As I tested, 2 convolutions and 2 linears are already enough.)
 Now the model's mean profit is about 20% per year (0.2% of transaction tax).
 Maybe the performance will improve with more amount of neural units.
