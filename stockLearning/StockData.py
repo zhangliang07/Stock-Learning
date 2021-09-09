@@ -9,6 +9,9 @@ import os
 _rootDataPath = os.path.realpath(os.getcwd() + '/../stockData/') + '\\'
 
 
+transitionTax = 0.002
+
+
 #获取目录下所有的股票代码
 def getStockRandomList():
 	stockFile = _rootDataPath + 'shangzhengA/*.SH.CSV'
@@ -139,7 +142,7 @@ class StockData:
 			self.__money -= count * nextPrice
 		elif action > 1.5 and self.__stock > 0:
 			self.__money += self.__stock * nextPrice
-			self.__money *= 0.998	#手续费
+			self.__money *= (1.0 - transitionTax)	#手续费
 			self.__stock = 0
 			if self.__money < self.__moneyBase * 0.5: #亏损到一定百分比结束
 				done = True

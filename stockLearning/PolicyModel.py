@@ -96,7 +96,7 @@ class _LossFunction(nn.Module):
     return
 
 
-  # pred: shape(batchSize, 3)?? value(--, ++)
+  # pred: shape(batchSize, 3), value(--, ++)
   # actions: (batchSize), value 0, 1 or 2
   # reward: (batchSize), value(--, ++)
   def forward(self, pred, actions, reward):
